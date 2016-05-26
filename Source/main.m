@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "XlsxReaderWriter.h"
 
-NSArray* readExcelFile(NSString* path, NSString* sheetName);
-
 @interface ResourceRow : NSObject
 
 // The resource lookup key
@@ -31,8 +29,12 @@ NSArray* readExcelFile(NSString* path, NSString* sheetName);
 
 @interface ResourceWriter : NSObject
 
+@property (nonnull, nonatomic, copy) NSString* sourcePath;
+@property (nonnull, nonatomic, copy) NSString* worksheet;
+
 @property (nonnull, nonatomic, copy) NSString* outputFolderRoot;
 @property (nonnull, nonatomic, strong) NSArray* resourceRows;
+@property (nonatomic, nonnull, copy) NSString* defaultLanguageCode;
 
 - (void) writeResourceFiles;
 
@@ -62,7 +64,42 @@ NSArray* readExcelFile(NSString* path, NSString* sheetName);
 
 @end
 
-NSString* parseLanguageCode(NSString* string)
+@implementation ResourceRow
+
+- (NSString*) debugDescription
+{
+    return [NSString stringWithFormat:@"Key: %@, AltKeys: %@, Desc: %@, Data: %@", self.key, self.altKeys, self.desc, self.values];
+}
+
+- (BOOL) valueHasFormatSpecifiers:(NSString*)value
+{
+    NSRange range = [value rangeOfString:@"%"];
+    if (range.length == 1)
+    {
+        range.location++;
+        NSString* subStr = [value substringWithRange:range];
+        if (subStr && subStr.length > 0)
+        {
+            if ([@"%" isEqualToString:subStr])
+            {
+                return [self valueHasFormatSpecifiers:[value substringFromIndex:range.location + 1]];
+            }
+            else
+            {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+@end
+
+
+@implementation ResourceWriter
+
+- (NSString*) parseLanguageCode:(NSString*)string
 {
     NSRange leftBracketLoc = [string rangeOfString:@"["];
     NSRange rightBracketLoc = [string rangeOfString:@"]"];
@@ -78,7 +115,7 @@ NSString* parseLanguageCode(NSString* string)
     return nil;
 }
 
-NSArray* readExcelFile(NSString* path, NSString* sheetName)
+- (NSArray*) readExcelFile:(NSString*)path sheetName:(NSString*)sheetName
 {
     NSMutableArray* parsedRows = [NSMutableArray array];
     
@@ -114,7 +151,7 @@ NSArray* readExcelFile(NSString* path, NSString* sheetName)
                     descriptionColumn = cell.columnName;
                 }
                 
-                NSString* languageCode = parseLanguageCode(val);
+                NSString* languageCode = [self parseLanguageCode:val];
                 if (languageCode)
                 {
                     [languages addObject:languageCode];
@@ -180,46 +217,15 @@ NSArray* readExcelFile(NSString* path, NSString* sheetName)
         ++rowIndex;
     }
     
+    self.defaultLanguageCode = [languages firstObject];
+    
     return [parsedRows copy];
 }
 
-@implementation ResourceRow
-
-- (NSString*) debugDescription
-{
-    return [NSString stringWithFormat:@"Key: %@, AltKeys: %@, Desc: %@, Data: %@", self.key, self.altKeys, self.desc, self.values];
-}
-
-- (BOOL) valueHasFormatSpecifiers:(NSString*)value
-{
-    NSRange range = [value rangeOfString:@"%"];
-    if (range.length == 1)
-    {
-        range.location++;
-        NSString* subStr = [value substringWithRange:range];
-        if (subStr && subStr.length > 0)
-        {
-            if ([@"%" isEqualToString:subStr])
-            {
-                return [self valueHasFormatSpecifiers:[value substringFromIndex:range.location + 1]];
-            }
-            else
-            {
-                return YES;
-            }
-        }
-    }
-    
-    return NO;
-}
-
-@end
-
-
-@implementation ResourceWriter
-
 - (void) writeResourceFiles
 {
+    self.resourceRows = [self readExcelFile:self.sourcePath sheetName:self.worksheet];
+    
     NSDictionary* output = [self generateFileContents];
     
     [self ensureFolderExists:self.outputFolderRoot];
@@ -231,7 +237,7 @@ NSArray* readExcelFile(NSString* path, NSString* sheetName)
         NSString* fileName = [self outputFileName:language];
         [self writeFile:fileContents fileName:fileName];
         
-        if (index == 0)
+        if ([language isEqualToString:self.defaultLanguageCode])
         {
             fileName = [self defaultOutputFileName];
             if (fileName)
@@ -480,18 +486,17 @@ int main(int argc, const char * argv[])
             return -1;
         }
         
-        NSLog(@"%@", args);
+        //NSLog(@"%@", args);
         
         NSString* source = [args valueForKey:@"source"];
         NSString* output = [args valueForKey:@"outputFolder"];
         NSString* platform = [args valueForKey:@"platform"];
         NSArray* platforms = [platform componentsSeparatedByString:@"|"];
-        NSLog(@"Platforms: %@", platforms);
+        //NSLog(@"Platforms: %@", platforms);
         
         BOOL appendPlatformToSubfolder = (platforms.count > 1);
         
-        NSArray* resourceRows = readExcelFile(source, @"Data");
-        
+        //NSArray* resourceRows = readExcelFile(source, @"Data");
         
         for (NSString* platform in platforms)
         {
@@ -512,7 +517,8 @@ int main(int argc, const char * argv[])
                 writer = [IosResourceWriter new];
             }
             
-            writer.resourceRows = resourceRows;
+            writer.sourcePath = source;
+            writer.worksheet = @"Data";
             writer.outputFolderRoot = outputFolder;
             [writer writeResourceFiles];
         }

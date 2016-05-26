@@ -67,11 +67,11 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/source=&quot;/Users/ryandevore/Code/MyCode/XlsToString/Resources/test_data.xlsx&quot;"
+            argument = "/source=&quot;/Users/ryandevore/Code/MyCode/UUStringResourceGen/Resources/test_data.xlsx&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/outputFolder=&quot;/Users/ryandevore/Code/MyCode/XlsToString/Resources/dev_output/&quot;"
+            argument = "/outputFolder=&quot;/Users/ryandevore/Code/MyCode/UUStringResourceGen/Resources/dev_output/&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
