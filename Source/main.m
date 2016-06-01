@@ -375,7 +375,17 @@
 
 - (NSString*) transformFormattedValue:(NSString*)value
 {
-    return [value stringByReplacingOccurrencesOfString:@"%@" withString:@"%s"];
+    value = [value stringByReplacingOccurrencesOfString:@"%@" withString:@"%s"];
+    
+    for (int i = 1; i <= 9; i++)
+    {
+        NSString* src = [NSString stringWithFormat:@"%%%d$@", i];
+        NSString* dest = [NSString stringWithFormat:@"%%%d$s", i];
+        
+        value = [value stringByReplacingOccurrencesOfString:src withString:dest];
+    }
+    
+    return value;
 }
 
 @end
@@ -486,13 +496,13 @@ int main(int argc, const char * argv[])
             return -1;
         }
         
-        //NSLog(@"%@", args);
+        NSLog(@"%@", args);
         
         NSString* source = [args valueForKey:@"source"];
         NSString* output = [args valueForKey:@"outputFolder"];
         NSString* platform = [args valueForKey:@"platform"];
         NSArray* platforms = [platform componentsSeparatedByString:@"|"];
-        //NSLog(@"Platforms: %@", platforms);
+        NSLog(@"Platforms: %@", platforms);
         
         BOOL appendPlatformToSubfolder = (platforms.count > 1);
         
