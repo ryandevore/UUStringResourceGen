@@ -47,6 +47,7 @@
 - (NSString*) defaultOutputFileName;
 
 - (NSString*) transformFormattedValue:(NSString*)value;
+- (NSString*) escapeValue:(NSString*)value;
 
 @end
 
@@ -151,7 +152,7 @@
                     descriptionColumn = cell.columnName;
                 }
                 
-                NSString* languageCode = [self parseLanguageCode:val];
+                NSString* languageCode = [self parseLanguageCode:[cell stringValue]];
                 if (languageCode)
                 {
                     [languages addObject:languageCode];
@@ -334,6 +335,12 @@
     return value;
 }
 
+- (NSString*) escapeValue:(NSString*)value
+{
+    value = [value stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    return value;
+}
+
 @end
 
 @implementation AndroidResourceWriter
@@ -356,6 +363,8 @@
     {
         value = [self transformFormattedValue:value];
     }
+    
+    value = [self escapeValue:value];
     
     [sb appendFormat:@"    <string name=\"%@\" formatted=\"%@\">%@</string>", row.key, formatted ? @"true" : @"false", value];
 }
@@ -400,6 +409,8 @@
     {
         value = [self transformFormattedValue:value];
     }
+    
+    value = [self escapeValue:value];
     
     [sb appendFormat:@"/* %@ */", row.desc];
     [self appendNewLine:sb];
