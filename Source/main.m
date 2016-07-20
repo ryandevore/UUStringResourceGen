@@ -371,6 +371,7 @@
 
 - (NSString*) outputFileName:(NSString*)languageCode
 {
+    languageCode = [languageCode stringByReplacingOccurrencesOfString:@"-" withString:@"-r"];
     NSString* subFolder = [NSString stringWithFormat:@"values-%@", languageCode];
     NSString* path = [self.outputFolderRoot stringByAppendingPathComponent:subFolder];
     return [[path stringByAppendingPathComponent:@"strings"] stringByAppendingPathExtension:@"xml"];
