@@ -355,7 +355,7 @@
     [sb appendString:@"</resources>"];
 }
 
-- (void) appendResourceRow:(ResourceRow*)row languageCode:(NSString*)languageCode stringBuilder:(NSMutableString*)sb
+- (void) appendResourceRow:(ResourceRow*)row    languageCode:(NSString*)languageCode stringBuilder:(NSMutableString*)sb
 {
     NSString* value = row.values[languageCode];
     BOOL formatted = [row valueHasFormatSpecifiers:value];
@@ -394,6 +394,8 @@
         
         value = [value stringByReplacingOccurrencesOfString:src withString:dest];
     }
+    
+    value = [value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
     
     return value;
 }
