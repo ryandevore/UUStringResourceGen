@@ -338,6 +338,7 @@
 - (NSString*) escapeValue:(NSString*)value
 {
     value = [value stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     return value;
 }
 
