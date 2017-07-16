@@ -395,10 +395,16 @@
         value = [value stringByReplacingOccurrencesOfString:src withString:dest];
     }
     
-    value = [value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-    
     return value;
 }
+
+- (NSString*) escapeValue:(NSString*)value
+{
+    value = [super escapeValue:value];
+    value = [value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    return value;
+}
+
 
 @end
 
