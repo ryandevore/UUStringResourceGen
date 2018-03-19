@@ -403,6 +403,8 @@
 {
     value = [super escapeValue:value];
     value = [value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    value = [value stringByReplacingOccurrencesOfString:@"<" withString:@"&#60;"];
+    //value = [value stringByReplacingOccurrencesOfString:@"'" withString:@"&#39;"];
     return value;
 }
 
