@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		083DFC3723A87BB900EC8D09 /* libSSZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22225F201C47EC3B00256993 /* libSSZipArchive.a */; };
 		08EFEECF1CF759A60019A028 /* BRAOpenXmlElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C67D1A1515CB00790ED5 /* BRAOpenXmlElement.m */; };
 		08EFEED01CF759A60019A028 /* NSDictionary+DeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C6CE1A15171B00790ED5 /* NSDictionary+DeepCopy.m */; };
 		08EFEED11CF759A60019A028 /* BRAContentTypesDefaultExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C6BC1A1516E200790ED5 /* BRAContentTypesDefaultExtension.m */; };
@@ -47,7 +48,6 @@
 		08EFEEF41CF759A60019A028 /* BRAWorksheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C68F1A15161A00790ED5 /* BRAWorksheet.m */; };
 		08EFEEF51CF759A60019A028 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B6E26C1A15063800288A78 /* XMLDictionary.m */; };
 		08EFEEF71CF759A60019A028 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B6E3091A1512DD00288A78 /* Foundation.framework */; };
-		08EFEEF81CF759A60019A028 /* libSSZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B6E2681A1505C400288A78 /* libSSZipArchive.a */; };
 		22156D601C46B5DB00BB5779 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B6E26C1A15063800288A78 /* XMLDictionary.m */; };
 		22156D611C46B5DB00BB5779 /* NSDictionary+DeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C6CE1A15171B00790ED5 /* NSDictionary+DeepCopy.m */; };
 		22156D621C46B5DB00BB5779 /* NSDictionary+OpenXMLDictionaryParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4580C6D01A15171B00790ED5 /* NSDictionary+OpenXMLDictionaryParser.m */; };
@@ -186,7 +186,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		08EFEF0D1CF7679E0019A028 /* PBXContainerItemProxy */ = {
+		083DFC3823A87BC200EC8D09 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45B6E2621A1505C400288A78 /* SSZipArchive.xcodeproj */;
 			proxyType = 1;
@@ -368,8 +368,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083DFC3723A87BB900EC8D09 /* libSSZipArchive.a in Frameworks */,
 				08EFEEF71CF759A60019A028 /* Foundation.framework in Frameworks */,
-				08EFEEF81CF759A60019A028 /* libSSZipArchive.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +407,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		083DFC3623A87BB900EC8D09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		22156D591C46B42500BB5779 /* XlsxReaderWriter Mac */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,6 +468,7 @@
 				22156D591C46B42500BB5779 /* XlsxReaderWriter Mac */,
 				45B6E3081A15125300288A78 /* External Frameworks */,
 				45B6E23B1A148F7500288A78 /* Products */,
+				083DFC3623A87BB900EC8D09 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1017,7 +1025,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				08EFEF0E1CF7679E0019A028 /* PBXTargetDependency */,
+				083DFC3923A87BC200EC8D09 /* PBXTargetDependency */,
 			);
 			name = XlsxReaderWriterMac;
 			productName = XlsxReaderWriter;
@@ -1105,6 +1113,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 45B6E2311A148F7500288A78;
@@ -1320,10 +1329,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		08EFEF0E1CF7679E0019A028 /* PBXTargetDependency */ = {
+		083DFC3923A87BC200EC8D09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "SSZipArchive Mac Static";
-			targetProxy = 08EFEF0D1CF7679E0019A028 /* PBXContainerItemProxy */;
+			targetProxy = 083DFC3823A87BC200EC8D09 /* PBXContainerItemProxy */;
 		};
 		22225F221C47EC4500256993 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
