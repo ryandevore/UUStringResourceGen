@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "XlsxReaderWriter.h"
 
+
+@interface NSString (Extensions)
+
+- (BOOL) uuStartsWithSubstring:(NSString *)inSubstring;
+- (BOOL) uuEndsWithSubstring:(NSString *)inSubstring;
+
+@end
+
+
 @interface ResourceRow : NSObject
 
 // The resource lookup key
@@ -346,6 +355,17 @@
     return value;
 }
 
+- (BOOL) shouldTryEscapeValue:(NSString*)value
+{
+    if ([value uuStartsWithSubstring:@"&"] &&
+        [value uuEndsWithSubstring:@";"])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (NSString*) escapeValue:(NSString*)value
 {
     value = [value stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
@@ -379,7 +399,10 @@
         value = [self transformFormattedValue:value];
     }
     
-    value = [self escapeValue:value];
+    if ([self shouldTryEscapeValue:value])
+    {
+        value = [self escapeValue:value];
+    }
     
     [sb appendFormat:@"    <string name=\"%@\" formatted=\"%@\">%@</string>", row.key, formatted ? @"true" : @"false", value];
 }
@@ -413,12 +436,22 @@
     return value;
 }
 
++ (NSDictionary<NSString*, NSString*>*) replacementStrings
+{
+    NSMutableDictionary* md = [NSMutableDictionary dictionary];
+    [md setValue:@"" forKey:@"&"];
+    
+    return [md copy];
+}
+
 - (NSString*) escapeValue:(NSString*)value
 {
     value = [super escapeValue:value];
+    
     value = [value stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
     value = [value stringByReplacingOccurrencesOfString:@"<" withString:@"&#60;"];
-    //value = [value stringByReplacingOccurrencesOfString:@"'" withString:@"&#39;"];
+    value = [value stringByReplacingOccurrencesOfString:@">" withString:@"&#62;"];
+    
     return value;
 }
 
@@ -443,7 +476,10 @@
         value = [self transformFormattedValue:value];
     }
     
-    value = [self escapeValue:value];
+    if ([self shouldTryEscapeValue:value])
+    {
+        value = [self escapeValue:value];
+    }
     
     [sb appendFormat:@"/* %@ */", row.desc];
     [self appendNewLine:sb];
@@ -643,3 +679,19 @@ int main(int argc, const char * argv[])
     
     return 0;
 }
+
+@implementation NSString (Extensions)
+
+- (BOOL) uuStartsWithSubstring:(NSString *)inSubstring
+{
+    NSRange r = [self rangeOfString:inSubstring];
+    return (r.length > 0) && (r.location == 0);
+}
+
+- (BOOL) uuEndsWithSubstring:(NSString *)inSubstring
+{
+    NSRange r = [self rangeOfString:inSubstring];
+    return (r.length > 0) && (r.location == ([self length] - [inSubstring length]));
+}
+
+@end
