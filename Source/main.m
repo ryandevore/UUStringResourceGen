@@ -619,7 +619,7 @@ void PrintUsage()
 {
     NSMutableString* sb = [NSMutableString string];
     [sb appendString:@"\r\n"];
-    [sb appendString:@" * * * * UUStringResourceGen (v0.1) * * * * "];
+    [sb appendString:@" * * * * UUStringResourceGen (v0.2) * * * * "];
     [sb appendString:@"\r\n\r\n"];
     [sb appendString:@"Arguments:\r\n"];
     [sb appendString:@"source            - (Required) Full path to XLSX file to be processed.\r\n"];
