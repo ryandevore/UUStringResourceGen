@@ -65,11 +65,11 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/source=&quot;/Users/ryandevore/Code/OpenSource/UUStringResourceGen/Resources/test_data.xlsx&quot;"
+            argument = "/source=&quot;/Users/ryandevore/Code/Silverpine/Silvertooth-common/localization/AppStrings.xlsx&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/outputFolder=&quot;/Users/ryandevore/Code/OpenSource/UUStringResourceGen/Resources/dev_output/&quot;"
+            argument = "/outputFolder=&quot;/Users/ryandevore/Code/Silverpine/Silvertooth-common/localization/output/&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

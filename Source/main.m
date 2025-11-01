@@ -404,6 +404,11 @@
         value = [self escapeValue:value];
     }
     
+    if ([value containsString:@"\n"])
+    {
+        value = [value stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+    }
+    
     [sb appendFormat:@"    <string name=\"%@\" formatted=\"%@\">%@</string>", row.key, formatted ? @"true" : @"false", value];
 }
 
